@@ -35,7 +35,7 @@ class MiniVQGAN(VQGAN):
         args = AttrDict(args)
         super(VQGAN, self).__init__()
 
-        ckpt_path = str(Path(__file__).parents[7]) + ckpt_path
+        # ckpt_path = str(Path(__file__).parents[7]) + ckpt_path
 
         self.model = VQGAN(args)
         self.model.load_checkpoint(ckpt_path)
