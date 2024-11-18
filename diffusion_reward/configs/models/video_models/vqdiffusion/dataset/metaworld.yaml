@@ -65,7 +65,7 @@ model:
             pos_emb_type: embedding
 
 dataloader:
-  data_root: "/video_dataset/metaworld/"
+  data_root: "/mnt/changyeon/ICLR2025/rebuttal/data/diffusion_reward_data"
   batch_size: 4
   num_workers: 4
   train_datasets: # a list of configures, so we can combine several schedulers

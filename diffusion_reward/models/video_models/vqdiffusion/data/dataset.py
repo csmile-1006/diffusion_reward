@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 import numpy as np
 import torch
@@ -10,7 +9,8 @@ from torch.utils.data import Dataset
 
 class VideoDataset(Dataset):
     def __init__(self, data_root, phase='train', frames_per_sample=3, frame_skip=1, random_time=True, total_videos=-1):
-        self.data_root = str(Path(__file__).parents[5]) + data_root
+        # self.data_root = str(Path(__file__).parents[5]) + data_root
+        self.data_root = data_root
 
         self.train = phase == 'train'
         self.frames_per_sample = frames_per_sample

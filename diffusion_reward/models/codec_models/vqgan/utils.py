@@ -15,7 +15,7 @@ class ImagePaths(Dataset):
     def __init__(self, path, size=None, is_train=True):
         self.size = size
 
-        path = str(Path(__file__).parents[4]) + path
+        path = path
         self.images = []
         for root, subdirs, files in os.walk(path):
             for name in files:

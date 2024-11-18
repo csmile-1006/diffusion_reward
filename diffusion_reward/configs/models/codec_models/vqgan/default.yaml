@@ -31,7 +31,7 @@ disc_start: 1000
 disc_factor: 0.1
 rec_loss_factor: 1
 perceptual_loss_factor: 0.1
-dataset_path: /video_dataset/${domain}
+dataset_path: /mnt/changyeon/ICLR2025/rebuttal/data/diffusion_reward_data/
 
 
 # Working space

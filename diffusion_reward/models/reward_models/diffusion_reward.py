@@ -24,6 +24,7 @@ class DiffusionReward(nn.Module):
         self.model = self.info['model']
         self.epoch = self.info['epoch']
         self.model_name = self.info['model_name']
+        self.device = torch.device(cfg.device)
         # self.model = self.model.cuda()
         self.model.eval()
         for param in self.model.parameters(): 
@@ -45,7 +46,7 @@ class DiffusionReward(nn.Module):
         if self.use_expl_reward:
             cfg.expl_reward.obs_shape = cfg.obs_shape
             cfg.expl_reward.action_shape = cfg.action_shape
-            self.expl_reward = hydra.utils.instantiate(cfg.expl_reward)
+            self.expl_reward = hydra.utils.instantiate(cfg.expl_reward, device=self.device)
             self.expl_scale = cfg.expl_scale
 
     def get_model(self, ema, model_path, config_path):
@@ -80,6 +81,12 @@ class DiffusionReward(nn.Module):
         else:
             epoch = None
         return {'model': model, 'epoch': epoch, 'model_name': model_name, 'parameter': model_parameters}
+
+    @property
+    def subseq_len(self):
+        num_frames = self.model.cfg.params["condition_emb_config"]["params"]["num_cond_frames"] + 1
+        n_skip = self.model.frame_skip
+        return (num_frames - 1) * n_skip
 
     def imgs_to_batch(self, x, reward_type='entropy'):
         '''
@@ -132,6 +139,7 @@ class DiffusionReward(nn.Module):
 
     @torch.no_grad()
     def calc_reward(self, imgs):
+        imgs = imgs.to(self.device)
         self.model.eval()
         content, condition, _ = self.imgs_to_batch(imgs, reward_type=self.reward_type)
         content_token = content['content_token']
